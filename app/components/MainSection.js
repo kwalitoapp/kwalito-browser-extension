@@ -49,7 +49,7 @@ export default class MainSection extends Component {
 
   renderFooter(completedCount) {
     const { kwalito } = this.props;
-    const { filter }  = this.state;
+    const { filter } = this.state;
     const activeCount = kwalito.length - completedCount;
 
     if (kwalito.length) {
@@ -67,7 +67,7 @@ export default class MainSection extends Component {
 
   render() {
     const { kwalito, actions } = this.props;
-    const { filter }           = this.state;
+    const { filter } = this.state;
 
     const filteredTodos = kwalito.filter(TODO_FILTERS[filter]);
     const completedCount = kwalito.reduce(
