@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Kwalito",
+  "description": "A browser extension that enables you to check if a food product on an online grocery store fits your requirements",
+  "version": "1.0",
+  "author": "Kwalito",
+
+  "icons": {
+    "48": "icon38.png"
+  }, 
+  "browser_action": {
+        "default_title": "Dare Angel",
+        "default_icon": {
+          "19":"icon20.png",
+          "20":"icon20.png",
+          "38":"icon38.png"
+        },  
+    "default_popup": "dashboard.html"
+  },
+    "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["kwalito.client.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "activeTab"
+  ]
+}
