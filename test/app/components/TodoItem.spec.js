@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import TodoItem from '../../../app/components/TodoItem';
-import style from '../../../app/components/TodoItem.css';
+import TodoItem from '../../../app/components/DietItem';
+import style from '../../../app/components/DietItem.css';
 import TodoTextInput from '../../../app/components/TodoTextInput';
 
 function setup(editing = false) {

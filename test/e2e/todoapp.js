@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { delay, startChromeDriver, buildWebDriver } from '../func';
 import footerStyle from '../../app/components/Footer.css';
 import mainSectionStyle from '../../app/components/MainSection.css';
-import todoItemStyle from '../../app/components/TodoItem.css';
+import todoItemStyle from '../../app/components/DietItem.css';
 import todoTextInputStyle from '../../app/components/TodoTextInput.css';
 import manifest from '../../chrome/manifest.prod.json';
 

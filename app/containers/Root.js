@@ -1,18 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
+import { ConnectedRouter, Link } from 'react-router-redux'
+
 import App from './App';
 
 export default class Root extends Component {
 
   static propTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   render() {
-    const { store } = this.props;
+    const { store, history } = this.props;
     return (
       <Provider store={store}>
-        <App />
+        <ConnectedRouter history={history}>
+          <App/>
+        </ConnectedRouter>
       </Provider>
     );
   }
