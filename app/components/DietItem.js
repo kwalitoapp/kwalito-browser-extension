@@ -40,8 +40,9 @@ export default class DietItem extends Component {
     const itemStyle = {
       backgroundColor: diet.selected ? diet.color : 'white',
       color: diet.selected ? 'white' : diet.color,
-      fill: diet.selected ? 'white' : diet.color
-    };
+      fill: diet.selected ? 'white' : diet.color,
+      transition: 'backgroundColor 0.2s, color 0.2s'
+  };
 
     return (
       <li
@@ -61,6 +62,7 @@ export default class DietItem extends Component {
         <Link to={`/moreInfo/${diet.id}`}>
           <button
             className={style.moreInfo}
+            style={itemStyle}
            // onClick={this.handleMoreInfo}
           >
             <IconInfo />

@@ -31,6 +31,19 @@
   color: #737373;
 }
 
+.listItemIconWrapper svg {
+  max-height: 30px;
+  width: 30px;
+}
+.listItemContent {
+  display: block;
+  flex-grow: 1;
+  font-size: 1.2em;
+}
+.selected .listItemContent {
+  color: white;
+}
+
 /*
   Hack to remove background from Mobile Safari.
   Can't use it globally since it destroys checkboxes in Firefox
