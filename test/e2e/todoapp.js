@@ -3,7 +3,7 @@ import webdriver from 'selenium-webdriver';
 import { expect } from 'chai';
 import { delay, startChromeDriver, buildWebDriver } from '../func';
 import footerStyle from '../../app/components/Footer.css';
-import mainSectionStyle from '../../app/components/MainSection.css';
+import mainSectionStyle from '../../app/components/DietListItem.css';
 import todoItemStyle from '../../app/components/DietItem.css';
 import todoTextInputStyle from '../../app/components/TodoTextInput.css';
 import manifest from '../../chrome/manifest.prod.json';

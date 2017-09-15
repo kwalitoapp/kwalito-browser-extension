@@ -1,0 +1,12 @@
+.listItemIconWrapper svg {
+  max-height: 30px;
+  width: 30px;
+}
+.listItemContent {
+  display: block;
+  flex-grow: 1;
+  font-size: 1.2em;
+}
+.selected .listItemContent {
+  color: white;
+}

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import MainSection from '../../../app/components/MainSection';
-import style from '../../../app/components/MainSection.css';
+import style from '../../../app/components/DietListItem.css';
 import TodoItem from '../../../app/components/DietItem';
 import Footer from '../../../app/components/Footer';
 import { SHOW_ALL, SHOW_COMPLETED } from '../../../app/constants/TodoFilters';
