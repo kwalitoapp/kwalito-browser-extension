@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const postCSSConfig = require('./postcss.config');
 
 const host = 'localhost';
 const port = 3000;
@@ -29,9 +28,6 @@ const baseDevConfig = () => ({
     filename: '[name].bundle.js',
     chunkFilename: '[id].chunk.js'
   },
-  postcss() {
-    return postCSSConfig;
-  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
@@ -45,12 +41,12 @@ const baseDevConfig = () => ({
     })
   ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['*', '.js']
   },
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       exclude: /node_modules/,
       query: {
         presets: ['react-hmre']
@@ -58,9 +54,9 @@ const baseDevConfig = () => ({
     }, {
       test: /\.css$/,
       loaders: [
-        'style',
-        'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-        'postcss'
+        'style-loader',
+        'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        'postcss-loader?postcss={}'
       ]
     }]
   }
