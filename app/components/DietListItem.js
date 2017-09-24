@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Link from 'react-router-redux-dom-link'
 import { ListItem } from 'react-toolbox/lib/list';
 import FontIcon from 'react-toolbox/lib/font_icon';
 import classnames from 'classnames';
@@ -31,10 +32,10 @@ export default class DietListItem extends Component {
     />;
     const itemContent = <span className={style.listItemContent}>{diet.name}</span>;
     const rightActions = [
-      <FontIcon>{diet.selected ? 'check_box' : 'check_box_outline_blank'}</FontIcon>,
-      <FontIcon>info_outline</FontIcon>
+      <FontIcon key={`dietListItem-fontIcon-${diet.id}`}>{diet.selected ? 'check_box' : 'check_box_outline_blank'}</FontIcon>,
+      <Link to={`/moreInfo/${diet.id}`} key={`dietListItem-link-${diet.id}`}><FontIcon>info_outline</FontIcon></Link>
     ];
-    const onClick = () => diet.selected ? actions.deselect(diet.id) : actions.select(diet.id);
+    const onClick = () => actions.toggleSelect(diet.id);
     return <ListItem
       className={className}
       leftIcon={leftIcon}

@@ -103,16 +103,12 @@ const initialState = [{
 }];
 
 const actionsMap = {
-  [ActionTypes.DIET_SELECT]: (state, action) => {
+  [ActionTypes.DIET_TOGGLE_SELECT]: (state, action) => {
     return state.map(diet =>
       (diet.id === action.id ?
         Object.assign({}, diet, { selected: !diet.selected }) :
         diet)
     );
-  },
-  [ActionTypes.DIET_DESELECT]: (state, action) => actionsMap[ActionTypes.DIET_SELECT](state, action),
-  [ActionTypes.DIET_MORE_INFO](state, action) {
-    return Object.assign({}, state);
   }
 };
 

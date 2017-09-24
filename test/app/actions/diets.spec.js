@@ -1,27 +1,16 @@
-import test from 'ava';
+import chai from 'chai';
+
 import * as types from '../../../app/constants/ActionTypes';
 import * as actions from '../../../app/actions/diets';
 
-test('select should create DIET_SELECT action', t => {
-  const id = 42;
-  const actionResult = actions.select(id);
-  t.is(typeof actionResult, 'object');
-  t.is(actionResult.type, types.DIET_SELECT);
-  t.is(actionResult.id, id);
-});
+const expect = chai.expect;
 
-test('deselect should create DIET_DESELECT action', t => {
-  const id = 42;
-  const actionResult = actions.deselect(id);
-  t.is(typeof actionResult, 'object');
-  t.is(actionResult.type, types.DIET_DESELECT);
-  t.is(actionResult.id, id);
-});
-
-test('moreInfo should create DIET_MORE_INFO action', t => {
-  const id = 42;
-  const actionResult = actions.moreInfo(id);
-  t.is(typeof actionResult, 'object');
-  t.is(actionResult.type, types.DIET_MORE_INFO);
-  t.is(actionResult.id, id);
+describe('Actions: Diets', () => {
+  it('select should create DIET_TOGGLE_SELECT action', () => {
+    const id = 42;
+    const actionResult = actions.toggleSelect(id);
+    expect(typeof actionResult).to.equal('object');
+    expect(actionResult.type).to.equal(types.DIET_TOGGLE_SELECT);
+    expect(actionResult.id).to.equal(id);
+  });
 });

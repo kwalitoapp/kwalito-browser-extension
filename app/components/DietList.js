@@ -30,7 +30,7 @@ export default class DietList extends Component {
           ).join('\n')}
           `}} />
           <ListSubHeader caption='Mon alimentation' />
-          { kwalito.map(diet => <DietListItem diet={diet} actions={actions}/>) }
+          { kwalito.map(diet => <DietListItem key={`dietListItem-${diet.id}`} diet={diet} actions={actions}/>) }
         </List>
     );
   }

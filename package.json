@@ -10,7 +10,7 @@
     "clean": "rimraf build/ dev/ *.zip *.crx",
     "lint": "eslint app chrome test scripts webpack/*.js",
     "test-e2e": "cross-env NODE_ENV=test mocha -r ./test/setup-app test/e2e",
-    "test": "cross-env NODE_ENV=test ava ./test/setup-app.js"
+    "test": "cross-env NODE_ENV=test mocha -r ./test/setup-app test/app"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
   "author": "Kwalito",
   "license": "GPL-3.0",
   "devDependencies": {
-    "ava": "^0.22.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.1.2",
@@ -73,16 +72,6 @@
     "webpack-hot-middleware": "^2.19.1",
     "webpack-httpolyglot-server": "^0.2.2"
   },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit",
-    "verbose": true,
-    "files": [
-      "test/**/*.spec.js"
-    ]
-  },
   "babel": {
     "presets": [
       "es2015",
@@ -97,17 +86,22 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "chai": "^4.1.2",
     "classnames": "^2.2.5",
     "history": "^4.7.2",
+    "mocha": "^3.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-addons-test-utils": "^15.6.0",
     "react-dock": "^0.2.4",
     "react-icons": "^2.2.5",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-router-redux-dom-link": "^0.2.0",
     "react-toolbox": "^2.0.0-beta.12",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sinon": "^3.3.0"
   }
 }
