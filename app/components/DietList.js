@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { List, ListSubHeader } from 'react-toolbox/lib/list';
 
 import DietListItem from './DietListItem';
