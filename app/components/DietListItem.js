@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'react-router-redux-dom-link'
 import { ListItem } from 'react-toolbox/lib/list';
 import FontIcon from 'react-toolbox/lib/font_icon';
