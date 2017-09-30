@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'react-router-redux-dom-link'
+import { Link } from 'react-router-dom'
 import { ListItem } from 'react-toolbox/lib/list';
 import FontIcon from 'react-toolbox/lib/font_icon';
 import classnames from 'classnames';
-
+import * as routes from '../utils/routes';
 import style from './DietListItem.css';
 
 export default class DietListItem extends Component {
-
   static propTypes = {
     diet: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
@@ -34,7 +33,7 @@ export default class DietListItem extends Component {
     const itemContent = <span className={style.listItemContent}>{diet.name}</span>;
     const rightActions = [
       <FontIcon key={`dietListItem-fontIcon-${diet.id}`}>{diet.selected ? 'check_box' : 'check_box_outline_blank'}</FontIcon>,
-      <Link to={`/moreInfo/${diet.id}`} key={`dietListItem-link-${diet.id}`}><FontIcon>info_outline</FontIcon></Link>
+      <Link to={routes.dietInfo(diet.id)} key={`dietListItem-link-${diet.id}`}><FontIcon>info_outline</FontIcon></Link>
     ];
     const onClick = () => actions.toggleSelect(diet.id);
     return <ListItem

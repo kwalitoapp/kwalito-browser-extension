@@ -1,11 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Route } from 'react-router'
+import { connect, Provider } from 'react-redux';
+import { ConnectedRouter as Router } from 'react-router-redux'
+import { Route } from 'react-router-dom'
+import { AuthGlobals } from "redux-auth/material-ui-theme";
 
+import * as routes from '../utils/routes';
 import Header from '../components/Header';
-import MainSection from '../components/MainSection';
+import DietList from '../components/DietList';
 import MoreInfoSection from '../components/MoreInfoSection';
+import Sign from '../components/Sign';
 import * as DietActions from '../actions/diets';
 import style from './App.css';
 
@@ -17,28 +22,52 @@ import style from './App.css';
     actions: bindActionCreators(DietActions, dispatch)
   })
 )
+
+
 export default class App extends Component {
 
   static propTypes = {
+    store: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     kwalito: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
 
+  requireAuth(store, nextState, replace, next) {
+    if (!store.getState().auth.getIn(['user', 'isSignedIn'])) {
+      replace(routes.sign());
+    }
+    next();
+  }
+
   render() {
-    const { kwalito, actions } = this.props;
+    const { store, history, kwalito, actions } = this.props;
+    console.log(store.getState().router.location);
+    console.log(store.getState().auth);
+    if (!store.getState().auth.getIn(['user', 'isSignedIn'])) {
+      history.replace(routes.sign());
+    }
 
     return (
-      <div className={style.normal}>
-        <Header addTodo={actions.addTodo} />
+      <Provider store={store}>
         <div>
-          <Route exact path="/" render={() => (
-            <MainSection kwalito={kwalito} actions={actions} />
-          )}/>
-          <Route path="/moreInfo/:id" render={({match}) => (
-            <MoreInfoSection diet={kwalito.find((diet) => (diet.id == match.params.id))}/>
-          )}/>
+          <AuthGlobals />
+          <Router history={history}>
+            <div className={style.normal}>
+              <Header />
+              <section>
+                <Route exact path={routes.sign()} component={Sign} />
+                <Route exact path={routes.diets()} onEnter={this.requireAuth} render={() => (
+                  <DietList kwalito={kwalito} actions={actions} />
+                )}/>
+                <Route exact path={routes.dietInfo()} onEnter={this.requireAuth} render={({match}) => (
+                  <MoreInfoSection diet={kwalito.find((diet) => (diet.id == match.params.id))}/>
+                )}/>
+              </section>
+            </div>
+          </Router>
         </div>
-      </div>
+      </Provider>
     );
   }
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
+import * as routes from '../utils/routes';
 
 export default class MoreInfoSection extends Component {
 
@@ -16,10 +18,11 @@ export default class MoreInfoSection extends Component {
     const { diet } = this.props;
 
     return (
-      <div
-        dangerouslySetInnerHTML={{__html: diet.description}}
-      >
-
+      <div>
+        <Link to={routes.diets()} key={`hello-key-${diet.id}`}>Diets</Link>
+        <div
+          dangerouslySetInnerHTML={{__html: diet.description}}
+        />
       </div>
     );
   }

@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import { routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createMemoryHistory'
-
-import Root from '../../app/containers/Root';
+import App from '../../app/containers/App';
 import './todoapp.css';
 
 chrome.storage.local.get('state', (obj) => {
@@ -18,7 +17,7 @@ chrome.storage.local.get('state', (obj) => {
   const createStore = require('../../app/store/configureStore');
 
   ReactDOM.render(
-    <Root
+    <App
       store={createStore(initialState, historyMiddleware)}
       history={history}
     />,

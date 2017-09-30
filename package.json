@@ -64,6 +64,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
+    "remote-redux-devtools": "^0.5.12",
     "rimraf": "^2.6.2",
     "selenium-webdriver": "^3.5.0",
     "shelljs": "^0.7.8",
@@ -89,6 +90,7 @@
     "chai": "^4.1.2",
     "classnames": "^2.2.5",
     "history": "^4.7.2",
+    "material-ui": "^0.19.2",
     "mocha": "^3.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -97,10 +99,11 @@
     "react-icons": "^2.2.5",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
-    "react-router-redux-dom-link": "^0.2.0",
     "react-toolbox": "^2.0.0-beta.12",
     "redux": "^3.7.2",
+    "redux-auth": "0.0.5-beta5",
     "redux-thunk": "^2.2.0",
     "sinon": "^3.3.0"
   }
