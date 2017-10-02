@@ -8,9 +8,6 @@ const expect = chai.expect;
 describe('Actions: Diets', () => {
   it('select should create DIET_TOGGLE_SELECT action', () => {
     const id = 42;
-    const actionResult = actions.toggleSelect(id);
-    expect(typeof actionResult).to.equal('object');
-    expect(actionResult.type).to.equal(types.DIET_TOGGLE_SELECT);
-    expect(actionResult.id).to.equal(id);
+    expect(actions.toggleSelect(id)).to.deep.equal({ type: types.DIET_TOGGLE_SELECT, id });
   });
 });

@@ -1,19 +1,13 @@
 import { shallow, render } from 'enzyme';
 import React from 'react';
-import { createStore } from 'redux';
-import chai from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { ListItem } from 'react-toolbox/lib/list';
-import FontIcon from 'react-toolbox/lib/font_icon';
 import DietListItem from '../../../app/components/DietListItem';
 import style from '../../../app/components/DietListItem.css';
-import reducers from '../../../app/reducers';
-
-const expect = chai.expect;
+import * as routes from '../../../app/utils/routes';
 
 describe('Components: DietListItem', () => {
-  const fakeStore = createStore(reducers, {});
-
   it('should render one react-toolbox <ListItem /> component', () => {
     const wrapper = shallow(<DietListItem diet={{}} actions={{}} />);
     expect(wrapper.find(ListItem)).to.have.length(1);
@@ -68,9 +62,9 @@ describe('Components: DietListItem', () => {
   it('should render a "more info" link', () => {
     const diet = { id: 42, selected: false };
     const wrapper = shallow(<DietListItem diet={diet} actions={{}} />);
-    const rightActionsWrapper = shallow(wrapper.find(ListItem).prop('rightActions')[1], { context: { store: fakeStore } });
-    expect(rightActionsWrapper.prop('to')).to.equal(`/moreInfo/${diet.id}`);
-    expect(rightActionsWrapper.find(FontIcon).render().text()).to.equal('info_outline');
+    const rightActionsWrapper = wrapper.find(ListItem).prop('rightActions')[1];
+    expect(rightActionsWrapper.props['to']).to.equal(routes.dietInfo(diet.id));
+    expect(shallow(rightActionsWrapper.props['children']).text()).to.equal('info_outline');
   });
 
   it('should toggle selected on click', () => {

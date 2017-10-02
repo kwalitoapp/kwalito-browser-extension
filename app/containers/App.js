@@ -40,14 +40,17 @@ export default class App extends Component {
     next();
   }
 
-  render() {
-    const { store, history, kwalito, actions } = this.props;
-    console.log(store.getState().router.location);
-    console.log(store.getState().auth);
-    if (!store.getState().auth.getIn(['user', 'isSignedIn'])) {
-      history.replace(routes.sign());
+  initialRouting() {
+    const { store, history } = this.props;
+    if(!history.location || history.location === '/'){
+      const destination = store.getState().auth.getIn(['user', 'isSignedIn']) ? routes.diets() : routes.sign();
+      history.replace(destination);
     }
+  }
 
+  render() {
+    this.initialRouting();
+    const { store, history, kwalito, actions } = this.props;
     return (
       <Provider store={store}>
         <div>
