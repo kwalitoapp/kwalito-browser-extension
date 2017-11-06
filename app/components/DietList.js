@@ -7,7 +7,7 @@ import DietListItem from './DietListItem';
 export default class DietList extends Component {
 
   static propTypes = {
-    kwalito: PropTypes.array.isRequired,
+    diets:       PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
 
@@ -17,13 +17,13 @@ export default class DietList extends Component {
   }
 
   render() {
-    const { kwalito, actions } = this.props;
-    const { } = this.state;
+    const { diets, actions } = this.props;
+    const { }                               = this.state;
 
     return (
         <List>
           <style dangerouslySetInnerHTML={{__html: `
-          ${kwalito.map(diet => `.diet-${diet.id}, .diet-${diet.id} .material-icons, .diet-${diet.id} .material-icons {
+          ${diets.map(diet => `.diet-${diet.id}, .diet-${diet.id} .material-icons, .diet-${diet.id} .material-icons {
               background-color: ${diet.selected ? diet.color : 'white'};
               color: ${diet.selected ? 'white' : diet.color};
               fill: ${diet.selected ? 'white' : diet.color};
@@ -31,7 +31,7 @@ export default class DietList extends Component {
           ).join('\n')}
           `}} />
           <ListSubHeader caption='Mon alimentation' />
-          { kwalito.map(diet => <DietListItem key={`dietListItem-${diet.id}`} diet={diet} actions={actions}/>) }
+          { diets.map(diet => <DietListItem key={`dietListItem-${diet.id}`} diet={diet} actions={actions}/>) }
         </List>
     );
   }

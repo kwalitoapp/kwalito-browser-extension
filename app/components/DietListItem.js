@@ -9,7 +9,7 @@ import style from './DietListItem.css';
 
 export default class DietListItem extends Component {
   static propTypes = {
-    diet: PropTypes.object.isRequired,
+    diet:        PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   };
 
@@ -20,7 +20,7 @@ export default class DietListItem extends Component {
 
   render() {
     const { diet, actions } = this.props;
-    const { } = this.state;
+    const { }                            = this.state;
 
     const className = classnames({
       [`diet-${diet.id}`]: true,
@@ -33,9 +33,9 @@ export default class DietListItem extends Component {
     const itemContent = <span className={style.listItemContent}>{diet.name}</span>;
     const rightActions = [
       <FontIcon key={`dietListItem-fontIcon-${diet.id}`}>{diet.selected ? 'check_box' : 'check_box_outline_blank'}</FontIcon>,
-      <Link to={routes.dietInfo(diet.id)} key={`dietListItem-link-${diet.id}`}><FontIcon>info_outline</FontIcon></Link>
+      <FontIcon onClick={() => {actions.rightSideBar.display(diet.description)}} key={`dietListItem-link-${diet.id}`}>info_outline</FontIcon>
     ];
-    const onClick = () => actions.toggleSelect(diet.id);
+    const onClick = () => actions.kwalito.toggleSelect(diet.id);
     return <ListItem
       className={className}
       leftIcon={leftIcon}

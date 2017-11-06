@@ -59,20 +59,14 @@ describe('Components: DietListItem', () => {
     expect(rightActionsWrapper.text()).to.contain('check_box');
   });
 
-  it('should render a "more info" link', () => {
-    const diet = { id: 42, selected: false };
-    const wrapper = shallow(<DietListItem diet={diet} actions={{}} />);
+  it('should render the "more info" link', () => {
+    const diet = { id: 42, selected: false, description: 'very healthy diet' };
+    const actions = { rightSideBar: { display: sinon.spy() }};
+    const wrapper = shallow(<DietListItem diet={diet} actions={actions} />);
     const rightActionsWrapper = wrapper.find(ListItem).prop('rightActions')[1];
-    expect(rightActionsWrapper.props['to']).to.equal(routes.dietInfo(diet.id));
-    expect(shallow(rightActionsWrapper.props['children']).text()).to.equal('info_outline');
-  });
-
-  it('should toggle selected on click', () => {
-    const diet = { id: 42, selected: false };
-    const toggleSelectStub = sinon.spy();
-    const wrapper = shallow(<DietListItem diet={diet} actions={{toggleSelect: toggleSelectStub}} />);
-    wrapper.simulate('click');
-    expect(toggleSelectStub.calledOnce).to.equal(true);
-    expect(toggleSelectStub.calledWith(diet.id)).to.equal(true);
+    rightActionsWrapper.props.onClick();
+    expect(actions.rightSideBar.display.calledOnce).to.equal(true);
+    expect(actions.rightSideBar.display.calledWith(diet.description)).to.equal(true);
+    expect(rightActionsWrapper.props.children).to.equal('info_outline');
   });
 });

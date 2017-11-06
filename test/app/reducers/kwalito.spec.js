@@ -6,25 +6,25 @@ import kwalito from '../../../app/reducers/kwalito';
 const expect = chai.expect;
 
 describe('Reducers: Kwalito', () => {
-  it('should handle initial state', () => {
+  it('should handle empty initial state', () => {
     const state = kwalito(undefined, {});
-    expect(Array.isArray(state)).to.equal(true);
+    expect(Array.isArray(state.diets)).to.equal(true);
   });
 
   it('should handle DIET_TOGGLE_SELECT', () => {
     const id = 42;
-    const stateInit = [{ id }];
+    const stateInit = { diets: [{ id }], user: null };
 
     const stateSelected = kwalito(stateInit, { type: types.DIET_TOGGLE_SELECT, id });
-    expect(stateSelected).to.have.length(1);
-    expect(stateSelected).to.eql([{ id, selected: true }]);
+    stateInit.diets[0].selected = true;
+    expect(stateSelected).to.eql(stateInit);
 
     const stateDeselected = kwalito(stateSelected, { type: types.DIET_TOGGLE_SELECT, id });
-    expect(stateDeselected).to.have.length(1);
-    expect(stateDeselected).to.eql([{ id, selected: false }]);
+    stateInit.diets[0].selected = false;
+    expect(stateDeselected).to.eql(stateInit);
 
     const stateReselect = kwalito(stateDeselected, { type: types.DIET_TOGGLE_SELECT, id });
-    expect(stateReselect).to.have.length(1);
-    expect(stateReselect).to.eql([{ id, selected: true }]);
+    stateInit.diets[0].selected = true;
+    expect(stateReselect).to.eql(stateInit);
   });
 });

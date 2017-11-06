@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import _ from 'lodash';
 import reducers from '../../../app/reducers';
 
-const reducerNames = ['kwalito', 'auth', 'router'];
+const reducerNames = [ 'router', 'kwalito', 'leftMenu', 'rightSideBar' ];
 
 describe('Reducers: Index', () => {
   it(`should create ${reducerNames.length} reducers`, () => {
@@ -12,7 +12,7 @@ describe('Reducers: Index', () => {
   reducerNames.forEach((reducerName) => (
     it(`should create reducer "${reducerName}"`, () => {
       const myReducers = reducers(undefined, {});
-      expect(typeof myReducers[reducerName]).to.exist;
+      expect(myReducers[reducerName]).to.exist;
     })
   ));
 });

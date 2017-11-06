@@ -10,3 +10,4 @@ dev/
 *.crx
 *.pem
 update.xml
+package-lock.json

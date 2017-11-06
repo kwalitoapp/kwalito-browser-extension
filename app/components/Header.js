@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import TodoTextInput from './TodoTextInput';
+import style from './Header.css';
 
 export default class Header extends Component {
 

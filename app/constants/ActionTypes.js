@@ -1,1 +1,6 @@
 export const DIET_TOGGLE_SELECT = 'DIET_TOGGLE_SELECT';
+export const USER_SIGNIN        = 'USER_SIGNIN';
+export const USER_SIGNUP        = 'USER_SIGNUP';
+export const LEFT_MENU_TOGGLE   = 'LEFT_MENU_TOGGLE';
+export const RIGHT_SIDE_BAR_DISPLAY = 'RIGHT_SIDE_BAR_DISPLAY';
+export const RIGHT_SIDE_BAR_TOGGLE  = 'RIGHT_SIDE_BAR_TOGGLE';

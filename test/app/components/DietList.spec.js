@@ -10,14 +10,14 @@ const expect = chai.expect;
 
 describe('Components: DietList', () => {
   it('should render one react-toolbox <List /> component', () => {
-    const wrapper = shallow(<DietList kwalito={[]} actions={{}} />);
+    const wrapper = shallow(<DietList diets={[]} actions={{}} />);
     expect(wrapper.find(List)).to.have.length(1);
     expect(wrapper.find(List).children()).to.have.length(2);
   });
 
   it('should set specific diet style', () => {
     const diet = { id: 42, color: '#123456', selected: false };
-    const wrapper = shallow(<DietList kwalito={[diet]} actions={{}} />);
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} />);
     const styleWrapper = render(wrapper.find(List).childAt(0).getNode());
     expect(styleWrapper.html()).to.contain(`.diet-${diet.id}`);
     expect(styleWrapper.html()).to.contain(diet.color);
@@ -25,7 +25,7 @@ describe('Components: DietList', () => {
 
   it('should contain a subHeader', () => {
     const diet = { id: 42, color: '#123456', selected: false };
-    const wrapper = shallow(<DietList kwalito={[diet]} actions={{}} />);
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} />);
     expect(wrapper.find(ListSubHeader)).to.have.length(1);
   });
 
@@ -35,7 +35,7 @@ describe('Components: DietList', () => {
       { id: 24, color: '#987654', selected: true }
     ];
     const actions = {};
-    const wrapper = shallow(<DietList kwalito={diets} actions={actions} />);
+    const wrapper = shallow(<DietList diets={diets} actions={actions} />);
     expect(wrapper.find(DietListItem)).to.have.length(diets.length);
     expect(wrapper.find(DietListItem).at(0).prop('diet')).to.equal(diets[0]);
     expect(wrapper.find(DietListItem).at(0).prop('actions')).to.equal(actions);

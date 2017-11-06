@@ -26,10 +26,10 @@ const editTodo = async (driver, index, key) => {
   let todos = await findList(driver);
   const label = todos[index].findElement(webdriver.By.tagName('label'));
   // dbl click to enable textarea
-  await driver.actions().doubleClick(label).perform();
+  await driver.dietActions().doubleClick(label).perform();
   await delay(500);
   // typing & enter
-  driver.actions().sendKeys(key + webdriver.Key.RETURN).perform();
+  driver.dietActions().sendKeys(key + webdriver.Key.RETURN).perform();
   await delay(1000);
 
   todos = await findList(driver);
