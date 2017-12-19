@@ -10,7 +10,7 @@ describe('Reducers: Kwalito', () => {
     expect(typeof initialState).to.equal('object');
     expect(initialState).to.deep.equal({
       diets: [],
-      user: {diets: {}},
+      user: {diets: {}, ingredients: []},
       errors: {}
     });
   });
@@ -54,7 +54,8 @@ describe('Reducers: Kwalito', () => {
           user: {anonymous: false, diets: {}},
           error: {message: 'Ooooooops'}
         },
-        somethingElse: 'that should not be'
+        somethingElse: 'that should not be',
+        method: 'merge'
       };
       const newState = actionsMap[ActionTypes.KWALITO_UPDATE_STATE](_.cloneDeep(initialState), action);
       expect(newState)
@@ -98,7 +99,7 @@ describe('Reducers: Kwalito', () => {
 
     it('should return another object if any action is taken', () => {
       const state = _.cloneDeep(initialState);
-      const newState = kwalito(state, {type: ActionTypes.KWALITO_UPDATE_STATE});
+      const newState = kwalito(state, {type: ActionTypes.KWALITO_UPDATE_STATE, method: 'merge'});
       expect(newState).to.not.equal(state);
     });
   });

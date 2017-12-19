@@ -18,7 +18,7 @@ describe('Actions', () => {
     const state = {user: {diets: [{name: 'Pizza-based'}]}};
 
     it('should declare the right amount of actions', () => {
-      expect(Object.keys(kwalito).length).to.equal(6);
+      expect(Object.keys(kwalito).length).to.equal(9);
     });
     it('should create USER_SIGNIN action', () => {
       expect(kwalito.signIn({login, password, next})).to.deep.equal({
@@ -50,7 +50,11 @@ describe('Actions', () => {
       });
     });
     it('should create KWALITO_UPDATE_STATE action', () => {
-      expect(kwalito.updateState(state)).to.deep.equal({type: types.KWALITO_UPDATE_STATE, state});
+      expect(kwalito.updateState(state)).to.deep.equal({
+        type: types.KWALITO_UPDATE_STATE,
+        state,
+        method: 'merge'
+      });
     });
   });
 

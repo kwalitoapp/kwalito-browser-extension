@@ -9,17 +9,17 @@ import DietListItem from '../../../app/components/DietListItem';
 const expect = chai.expect;
 
 describe('Components: DietList', () => {
-  it('should render one react-toolbox <List /> component', () => {
-    const wrapper = shallow(<DietList diets={[]} actions={{}} userDiets={{}} />);
-    expect(wrapper.find(List)).to.have.length(1);
+  it('should render 3 react-toolbox <List /> component', () => {
+    const wrapper = shallow(<DietList diets={[]} actions={{}} userDiets={{}} userIngredients={[]} />);
+    expect(wrapper.find(List)).to.have.length(3);
     expect(wrapper.find(List).children()).to.have.length(2);
   });
 
   it('should set specific diet style', () => {
     const diet = { id: 42, color: '#123456' };
     const userDiet = {selected: false, options:{}};
-    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} />);
-    const styleWrapper = render(wrapper.find(List).childAt(0).getNode());
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} userIngredients={[]} />);
+    const styleWrapper = render(wrapper.find('#diets').find(List).childAt(0).getNode());
     expect(styleWrapper.html()).to.contain(`.diet-${diet.id}`);
     expect(styleWrapper.html()).to.contain(diet.color);
   });
@@ -27,7 +27,7 @@ describe('Components: DietList', () => {
   it('should contain a subHeader', () => {
     const diet = { id: 42, color: '#123456' };
     const userDiet = {selected: false, options:{}};
-    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} />);
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} userIngredients={[]} />);
     expect(wrapper.find(ListSubHeader)).to.have.length(1);
   });
 
@@ -41,7 +41,7 @@ describe('Components: DietList', () => {
       [diets[1].id]: {selected: true, options:{}}
     };
     const actions = {};
-    const wrapper = shallow(<DietList diets={diets} actions={actions} userDiets={userDiets} />);
+    const wrapper = shallow(<DietList diets={diets} actions={actions} userDiets={userDiets} userIngredients={[]} />);
     expect(wrapper.find(DietListItem)).to.have.length(diets.length);
     expect(wrapper.find(DietListItem).at(0).prop('diet')).to.equal(diets[0]);
     expect(wrapper.find(DietListItem).at(0).prop('actions')).to.equal(actions);

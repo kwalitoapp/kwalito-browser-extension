@@ -16,7 +16,10 @@ describe('Middleware: kwalitoMiddleware', () => {
     actionTypes.USER_SIGNUP,
     actionTypes.USER_SIGNOUT,
     actionTypes.DIET_TOGGLE_SELECT,
-    actionTypes.DIET_SET_OPTIONS
+    actionTypes.DIET_SET_OPTIONS,
+    actionTypes.INGREDIENT_SEARCH,
+    actionTypes.INGREDIENT_ADD,
+    actionTypes.INGREDIENT_REMOVE
   ];
   const getUser = (args) => ({
     anonymous: true,
