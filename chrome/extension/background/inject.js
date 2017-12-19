@@ -1,13 +1,16 @@
-function isInjected(tabId) {
+import _ from 'lodash';
+import stores from '../stores';
+
+export const isInjected = (tabId) => {
   return chrome.tabs.executeScriptAsync(tabId, {
-    code: `var injected = window.reactExampleInjected;
-      window.reactExampleInjected = true;
+    code: `var injected = window.KwalitoBrowserExtensionInjected;
+      window.KwalitoBrowserExtensionInjected = true;
       injected;`,
     runAt: 'document_start'
   });
-}
+};
 
-function loadScript(name, tabId, cb) {
+export const loadScript = (name, tabId, cb) => {
   if (process.env.NODE_ENV === 'production') {
     chrome.tabs.executeScript(tabId, { file: `/js/${name}.bundle.js`, runAt: 'document_end' }, cb);
   } else {
@@ -28,15 +31,32 @@ function loadScript(name, tabId, cb) {
       chrome.tabs.executeScript(tabId, { code: fetchRes, runAt: 'document_end' }, cb);
     });
   }
-}
+};
 
-const arrowURLs = ['^https://github\\.com'];
+export default (kwalitoSDK) => {
+  const storeUrls = _.map(stores, (store) => (store.urlMatch));
 
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (changeInfo.status !== 'loading' || !tab.url.match(arrowURLs.join('|'))) return;
+  chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    const tabUrlMatch = tab.url.match(storeUrls.join('|'));
+    if (changeInfo.status !== 'loading' || !tabUrlMatch) return;
+    console.log('TAB URL MATCH:', tabUrlMatch);
 
-  const result = await isInjected(tabId);
-  if (chrome.runtime.lastError || result[0]) return;
+    const result = await isInjected(tabId);
+    if (chrome.runtime.lastError || result[0]) return;
 
-  loadScript('inject', tabId, () => console.log('load inject bundle success!'));
-});
+    loadScript('inject', tabId, () => console.log('load inject bundle success!'));
+  });
+
+  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
+    let msgPromise;
+    if(msg.type === 'kwalitoSDK'){
+      msgPromise = kwalitoSDK[msg.method](msg.arg);
+    } else {
+      msgPromise = Promise.resolve(new Error(`Unknown message: ${JSON.stringify(msg)}`));
+    }
+    msgPromise
+      .then((data) => sendResponse({id: msg.id, data}))
+    ;
+  });
+};

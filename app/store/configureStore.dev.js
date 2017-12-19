@@ -4,11 +4,11 @@ import { composeWithDevTools } from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
-export default (initialState, historyMiddleware, storageMiddleware) => {
-  const store = createStore(rootReducer, composeWithDevTools(
+export default (initialState, historyMiddleware, kwalitoMiddleware) => {
+  const store = createStore(rootReducer, initialState, composeWithDevTools(
     applyMiddleware(thunk),
     applyMiddleware(historyMiddleware),
-    applyMiddleware(storageMiddleware)
+    applyMiddleware(kwalitoMiddleware)
   ));
   if (module.hot) {
     module.hot.accept('../reducers', () => {

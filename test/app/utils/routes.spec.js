@@ -4,7 +4,7 @@ import * as routes from '../../../app/utils/routes';
 
 const expect = chai.expect;
 
-const routeNames = ['home', 'diets', 'sign'];
+const routeNames = ['home', 'diets', 'sign', 'profile'];
 
 describe('Utils: routes', () => {
   it(`should export ${routeNames.length} routes`, () => {

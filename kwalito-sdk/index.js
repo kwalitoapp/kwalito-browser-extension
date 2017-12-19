@@ -19,7 +19,11 @@ export default class DatabaseManager {
 
   constructor(remoteCouchBaseUrl) {
     this.remoteCouchBaseUrl = remoteCouchBaseUrl;
-    this.dbs = {};
+    this.dbs = {
+      reference: undefined,
+      contribution: undefined,
+      user: undefined
+    };
     //   reference:    new RemoteDatabase({name: 'reference', remoteCouchBaseUrl}),
     //   contribution: new RemoteDatabase({name: 'contribution', remoteCouchBaseUrl}),
     //   user:         new LocalDatabase('user')

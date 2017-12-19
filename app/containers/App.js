@@ -14,9 +14,7 @@ import { IconButton } from 'react-toolbox/lib/button';
 import { FontIcon } from 'react-toolbox/lib/font_icon';
 
 import * as routes from '../utils/routes';
-import Header from '../components/Header';
 import DietList from '../components/DietList';
-import MoreInfoSection from '../components/MoreInfoSection';
 import Sign from '../components/Sign';
 import NavMenu from '../components/NavMenu';
 import * as KwalitoActions from '../actions/kwalito';
@@ -26,60 +24,69 @@ import style from './App.css';
 
 
 @connect(
-    (state) => ({
-        kwalito: state.kwalito,
-        leftMenu: state.leftMenu,
-        rightSideBar: state.rightSideBar
-    }), (dispatch) => ({
-        actions: {
-            kwalito: bindActionCreators(KwalitoActions, dispatch),
-            leftMenu: bindActionCreators(LeftMenuActions, dispatch),
-            rightSideBar: bindActionCreators(RightSideBarActions, dispatch)
-        }
-    })
+  (state) => ({
+    kwalito: state.kwalito,
+    leftMenu: state.leftMenu,
+    rightSideBar: state.rightSideBar
+  }), (dispatch) => ({
+    actions: {
+      kwalito: bindActionCreators(KwalitoActions, dispatch),
+      leftMenu: bindActionCreators(LeftMenuActions, dispatch),
+      rightSideBar: bindActionCreators(RightSideBarActions, dispatch)
+    }
+  })
 )
 export default class App extends Component {
 
-    static propTypes = {
-        store:          PropTypes.object.isRequired,
-        history:        PropTypes.object.isRequired,
-        actions:        PropTypes.object.isRequired
-    };
+  static propTypes = {
+    store:          PropTypes.object.isRequired,
+    history:        PropTypes.object.isRequired,
+    actions:        PropTypes.object.isRequired
+  };
 
-    render() {
-        const { store, history, actions, kwalito, rightSideBar, leftMenu } = this.props;
-        return (
-            <Provider store={store}>
-                <Router history={history}>
-                    <Layout>
-                        <NavDrawer active={leftMenu.active}
-                                   permanentAt='xxxl'
-                                   onOverlayClick={actions.leftMenu.toggle}>
-                            <NavMenu actions={actions} history={history} />
-                        </NavDrawer>
-                        <Panel>
-                            <AppBar leftIcon='menu' onLeftIconClick={actions.leftMenu.toggle} />
-                            <Route exact path={routes.home()} render={() => (
-                                <div>
-                                    <p>Kwalito home</p>
-                                </div>
-                            )} />
-                            <Route exact path={routes.sign()} render={() => (
-                                <Sign actions={actions} />
-                            )} />
-                            <Route exact path={routes.diets()} render={() => (
-                                <DietList diets={kwalito.diets} actions={actions}  />
-                            )} />
-                        </Panel>
-                        <Sidebar pinned={ rightSideBar.active } width={ 5 }>
-                            <div><IconButton icon='close' onClick={ actions.rightSideBar.toggle }/></div>
-                            <div
-                                dangerouslySetInnerHTML={{__html: rightSideBar.content}}
-                            />
-                        </Sidebar>
-                    </Layout>
-                </Router>
-            </Provider>
-        );
-    }
+  render() {
+    const { store, history, actions, kwalito, rightSideBar, leftMenu } = this.props;
+    return (
+      <Provider store={store}>
+        <Router history={history}>
+          <Layout>
+            <NavDrawer active={leftMenu.active}
+                       permanentAt='xxxl'
+                       onOverlayClick={actions.leftMenu.toggle}>
+              <NavMenu actions={actions} history={history} user={kwalito.user} />
+            </NavDrawer>
+            <Panel>
+              <AppBar leftIcon='menu' onLeftIconClick={actions.leftMenu.toggle} title="Kwalito" />
+              <Route exact path={routes.home()} render={() => (
+                <div>
+                  <p>Kwalito home</p>
+                </div>
+              )} />
+              <Route exact path={routes.sign()} render={() => (
+                <Sign
+                  actions={actions}
+                  signError={kwalito.errors.sign}
+                />
+              )} />
+              <Route exact path={routes.diets()} render={() => (
+                <DietList
+                  diets={kwalito.diets}
+                  userDiets={kwalito.user.diets}
+                  userIngredients={kwalito.user.ingredients}
+                  ingredientSearchResult={kwalito.ingredientSearchResult}
+                  actions={actions}
+                />
+              )} />
+            </Panel>
+            <Sidebar pinned={ rightSideBar.active } width={ 5 }>
+              <div><IconButton icon='close' onClick={ actions.rightSideBar.toggle }/></div>
+              <div
+                dangerouslySetInnerHTML={{__html: rightSideBar.content}}
+              />
+            </Sidebar>
+          </Layout>
+        </Router>
+      </Provider>
+    );
+  }
 }

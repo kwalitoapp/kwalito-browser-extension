@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Dock from 'react-dock';
+import _ from 'lodash';
+import stores from './stores';
 
 class InjectApp extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class InjectApp extends Component {
   };
 
   render() {
+
     return (
       <div>
         <button onClick={this.buttonOnClick}>
@@ -39,10 +42,24 @@ class InjectApp extends Component {
   }
 }
 
+const sendMessage = (msg) => {
+  return new Promise((resolve, reject) => {
+    try {
+      chrome.runtime.sendMessage(msg, resolve);
+    } catch(error){
+      reject(error);
+    }
+  });
+};
 window.addEventListener('load', () => {
-  const injectDOM = document.createElement('div');
-  injectDOM.className = 'inject-react-example';
-  injectDOM.style.textAlign = 'center';
-  document.body.appendChild(injectDOM);
-  render(<InjectApp />, injectDOM);
+
+  console.log('TAB URL:', window.location.href);
+  const store = _.find(stores, (s) => (window.location.href.match(s.urlMatch)));
+  console.log('DETECTED STORE:', store);
+  const productInfos = store.extractProductInfos();
+  sendMessage({type: 'kwalitoSDK', method: 'checkProduct', arg: productInfos})
+    .then((checkResult) => {
+      console.log('RESULT FOR THIS PRODUCT:', checkResult);
+    })
+  ;
 });

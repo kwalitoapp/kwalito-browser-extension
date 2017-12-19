@@ -30,6 +30,6 @@
   "background": {
     "page": "background.html"
   },
-  "permissions": [ "activeTab", "contextMenus", "management", "tabs", "storage", "https://github.com/*" ],
-  "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:5984 http://localhost:3000 https://localhost:3000 wss://remotedev.io; style-src * 'unsafe-inline' 'self' blob:; font-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;"
+  "permissions": [ "activeTab", "contextMenus", "management", "tabs", "storage", "http://*/*", "https://*/*" ],
+  "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:5984 http://localhost:3000 https://localhost:3000 wss://remotedev.io; style-src * 'unsafe-inline' 'self' blob:; font-src * 'unsafe-inline' 'self' blob:; img-src 'self' data: *;"
 }

@@ -10,3 +10,10 @@
 .selected .listItemContent {
   color: white;
 }
+.option .explanation {
+  text-align: center;
+  padding-bottom: 1em;
+}
+.option .explanation span {
+  font-weight: bold;
+}

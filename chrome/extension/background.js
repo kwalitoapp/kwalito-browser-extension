@@ -1,4 +1,7 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
+import KwalitoSDK from '../../kwalito-sdk';
+import {remoteCouchBaseUrl} from '../../app/constants';
+import inject from './background/inject';
 
 global.Promise = bluebird;
 
@@ -28,6 +31,11 @@ promisifyAll(chrome.storage, [
   'local',
 ]);
 
-require('./background/contextMenus');
-require('./background/inject');
-require('./background/badge');
+const kwalitoSDK = new KwalitoSDK(remoteCouchBaseUrl);
+kwalitoSDK.init()
+  .then(() => {
+    require('./background/contextMenus');
+    inject(kwalitoSDK);
+    require('./background/badge');
+  })
+;
