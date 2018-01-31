@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Tab } from 'react-toolbox/lib/tabs';
-import Input from 'react-toolbox/lib/input';
-import { Button } from 'react-toolbox/lib/button';
-import SnackBar from 'react-toolbox/lib/snackbar';
+import { Tab } from 'material-ui/Tabs';
+import Input from 'material-ui/TextField';
+import { Button } from 'material-ui/Button';
+import SnackBar from 'material-ui/Snackbar';
 import * as testUtils from '../../testUtils';
 import Sign from '../../../app/components/Sign';
 import * as routes from '../../../app/utils/routes';

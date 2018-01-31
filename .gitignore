@@ -1,13 +1,4 @@
-.idea/
 node_modules
-npm-debug.log
-.DS_Store
-
-build/
-dev/
-
-*.zip
-*.crx
-*.pem
-update.xml
-package-lock.json
+build
+secrets.*.js
+yarn-error.log

@@ -1,0 +1,33 @@
+@import "./variables.css";
+#kwalitoInjectApp {
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: background 1s;
+  background-color: transparent;
+  height: var(--app-height);
+
+  & .reasons {
+    transition-duration: 1s;
+    opacity: 0;
+    visibility: hidden;
+    background-color: white;
+    height: calc(var(--reasons-height) + 2 * var(--box-spacing));
+    overflow-y: auto;
+    & h2 {
+      text-align: center;
+      margin: calc(3 * var(--box-spacing)) 0;
+      color: var(--kwalito-greyDark)
+    }
+  }
+
+  &.displayMore {
+    background-color: var(--kwalito-red);
+    &.fitsMe {
+      background-color: var(--kwalito-green);
+    }
+    & .reasons {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

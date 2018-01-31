@@ -1,0 +1,28 @@
+@import "./variables.css";
+.logo {
+  box-sizing: border-box;
+  text-align: center;
+  height: calc(var(--logo-height) + 2 * var(--box-spacing));
+  padding: var(--box-spacing);
+  & .img {
+    transition: transform 1s;
+    transform: rotate(0deg);
+    height: calc(var(--logo-height) - var(--box-spacing));
+    width: calc(var(--logo-height) - var(--box-spacing));
+    background-color: var(--kwalito-red);
+    padding: var(--box-spacing);
+    border-radius: calc((var(--logo-height) / 2) + var(--box-spacing));
+    color: white;
+    fill: white;
+  }
+  &.fitsMe {
+    & .img {
+      background-color: var(--kwalito-green);
+    }
+  }
+  &.displayMore {
+    & .img {
+      transform: rotate(360deg);
+    }
+  }
+}

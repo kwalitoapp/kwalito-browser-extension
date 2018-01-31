@@ -1,0 +1,26 @@
+.dietListItem {
+  & .listItemIconWrapper svg {
+    max-height: 30px;
+    width: 30px;
+  }
+  &.selected {
+
+  }
+}
+.option {
+  & > div {
+    & > div {
+      & .slider {
+
+      }
+    }
+  }
+  background-color: white;
+  & .explanation {
+    padding-top: 4px;
+    text-align: center;
+    & span {
+      font-weight: bold;
+    }
+  }
+}

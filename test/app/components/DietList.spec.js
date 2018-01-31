@@ -2,7 +2,7 @@ import { shallow, render } from 'enzyme';
 import React from 'react';
 import chai from 'chai';
 import sinon from 'sinon';
-import { List, ListSubHeader } from 'react-toolbox/lib/list';
+import { List, ListSubHeader } from 'material-ui/List';
 import DietList from '../../../app/components/DietList';
 import DietListItem from '../../../app/components/DietListItem';
 
@@ -18,16 +18,16 @@ describe('Components: DietList', () => {
   it('should set specific diet style', () => {
     const diet = { id: 42, color: '#123456' };
     const userDiet = {selected: false, options:{}};
-    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} userIngredients={[]} />);
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet._id]: userDiet}} userIngredients={[]} />);
     const styleWrapper = render(wrapper.find('#diets').find(List).childAt(0).getNode());
-    expect(styleWrapper.html()).to.contain(`.diet-${diet.id}`);
+    expect(styleWrapper.html()).to.contain(`.diet-${diet._id}`);
     expect(styleWrapper.html()).to.contain(diet.color);
   });
 
   it('should contain a subHeader', () => {
     const diet = { id: 42, color: '#123456' };
     const userDiet = {selected: false, options:{}};
-    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet.id]: userDiet}} userIngredients={[]} />);
+    const wrapper = shallow(<DietList diets={[diet]} actions={{}} userDiets={{[diet._id]: userDiet}} userIngredients={[]} />);
     expect(wrapper.find(ListSubHeader)).to.have.length(1);
   });
 

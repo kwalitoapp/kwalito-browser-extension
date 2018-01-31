@@ -1,0 +1,14 @@
+@import "./variables.css";
+.actionBar {
+  box-sizing: border-box;
+  padding: var(--box-spacing);
+  transition-duration: 1s;
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+  height: calc(var(--actionBar-height) + 2 * var(--box-spacing));
+  &.displayMore {
+    opacity: 1;
+    visibility: visible;
+  }
+}

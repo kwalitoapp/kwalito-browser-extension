@@ -1,0 +1,34 @@
+:root {
+  --app-height: 600px;
+  --box-spacing: 10px;
+  --logo-height: 96px;
+  --actionBar-height: 56px;
+  --reasons-height: calc(
+          var(--app-height) /* total size */
+          - var(--box-spacing) /* top padding */
+          - var(--logo-height) /* logo */
+          - 2 * var(--box-spacing) /* paddings for logo and actionBar */
+          - var(--actionBar-height) /* actionBar */
+          - 2 * var(--box-spacing) /* paddings for actionBar and reasons */
+          - var(--box-spacing) /* bottom padding */
+  );
+  --kwalito-redLighter: #fdf2f0;
+  --kwalito-redLight: #f8c5bf;
+  --kwalito-red: #ef7f70;
+  --kwalito-redDark: #de5562;
+  --kwalito-redDarker: #ae3542;
+/*  --kwalito-red: #ff826f;*/
+
+  --kwalito-greenLighter: #ecf8f3;
+  --kwalito-greenLight: #e5f6ef;
+  --kwalito-green: #48bc8b;
+  --kwalito-greenDark: #437f7a;
+  --kwalito-greenDarker: #3e5554;
+
+  --kwalito-greyLighter: #f1f1f1;
+  --kwalito-greyLight: #e6e6e6;
+  --kwalito-grey: #b3b3b3;
+  --kwalito-greyDark: #818181;
+  --kwalito-greyDarker: #666666;
+
+}

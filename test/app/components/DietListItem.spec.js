@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ListItem } from 'react-toolbox/lib/list';
+import { ListItem } from 'material-ui/List';
 import * as testUtils from '../../testUtils';
 import DietListItem from '../../../app/components/DietListItem';
 import style from '../../../app/components/DietListItem.css';
@@ -28,7 +28,7 @@ describe('Components: DietListItem', () => {
   it('should add a `diet-${id}` class', () => {
     const diet = { id: 42, options: {} };
     const {topWrapper} = wrapComponent({diet});
-    expect(topWrapper.hasClass(`diet-${diet.id}`)).to.equal(true);
+    expect(topWrapper.hasClass(`diet-${diet._id}`)).to.equal(true);
   });
 
   it('should not add a `selected` class if the diet if not selected', () => {

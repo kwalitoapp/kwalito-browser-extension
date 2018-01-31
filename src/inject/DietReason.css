@@ -1,0 +1,40 @@
+@import "./variables.css";
+.subtitle {
+  height: 24px;
+  padding: var(--box-spacing);
+  margin-top: calc(2 * var(--box-spacing));
+  color: var(--kwalito-red);
+  background-color: var(--kwalito-redLighter);
+  border-top: 1px solid var(--kwalito-red);
+  & .icon {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin: 0 var(--box-spacing) 0 0;
+    &, & svg {
+      max-width: 24px;
+      max-height: 24px;
+      fill: var(--kwalito-red);
+    }
+  }
+  & h3 {
+    margin: 0;
+    height: 20px;
+    padding-top: 5px;
+  }
+  &.fitsMe {
+    background-color: var(--kwalito-greenLighter);
+    color: var(--kwalito-green);
+    border-top-color: var(--kwalito-green);
+    & .icon {
+      &, & svg {
+        fill: var(--kwalito-green);
+      }
+    }
+  }
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--box-spacing);
+}

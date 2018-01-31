@@ -1,0 +1,37 @@
+{
+
+  "name": "Kwalito Browser Extension",
+  "description": "A browser extension that enables you to check if a food product on an online grocery store fits your requirements",
+  "version": "0.0.1",
+  "author": "Kwalito",
+  "manifest_version": 2,
+  "icons": {
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
+  },
+  "browser_action": {
+    "default_title": "Kwalito",
+    "default_icon": {
+      "16":"img/icon16.png",
+      "19":"img/icon19.png",
+      "20":"img/icon20.png",
+      "38":"img/icon38.png",
+      "48":"img/icon48.png",
+      "128":"img/icon128.png",
+      "512":"img/icon512.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    "inject.html",
+    "img/icon512.png",
+    "img/icon512_bad.png",
+    "inject/iframe.html"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [ "activeTab", "contextMenus", "management", "tabs", "storage", "http://*/*", "https://*/*", "file://*/*" ],
+  "content_security_policy": "default-src 'self'; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:5984 http://localhost:3000 https://localhost:3000 ws://localhost:3000 wss://remotedev.io; style-src * 'unsafe-inline' 'self' blob:; font-src * 'unsafe-inline' 'self' blob:; img-src 'self' data: *;"
+}
