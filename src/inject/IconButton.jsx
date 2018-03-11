@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import * as themeContent from '../theme';
 
-export default function DietReason({ icon, selected, handler }) {
+export default function IconButton({ icon, selected, handler }) {
   return (
     <FloatingActionButton
       mini
@@ -20,7 +20,7 @@ export default function DietReason({ icon, selected, handler }) {
   );
 }
 
-DietReason.propTypes = {
+IconButton.propTypes = {
   icon: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   handler: PropTypes.func.isRequired

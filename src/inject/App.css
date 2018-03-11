@@ -5,18 +5,26 @@
   transition: background 1s;
   background-color: transparent;
   height: var(--app-height);
+  z-index: 999;
 
-  & .reasons {
+  & .tabs {
+    transition-duration: 1s;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  & .reasons, & .comments {
     transition-duration: 1s;
     opacity: 0;
     visibility: hidden;
     background-color: white;
     height: calc(var(--reasons-height) + 2 * var(--box-spacing));
     overflow-y: auto;
-    & h2 {
-      text-align: center;
-      margin: calc(3 * var(--box-spacing)) 0;
-      color: var(--kwalito-greyDark)
+    & > * {
+      margin-top: calc(2 * var(--box-spacing));
+      &:first-child {
+        margin-top: 0;
+      }
     }
   }
 
@@ -25,9 +33,19 @@
     &.fitsMe {
       background-color: var(--kwalito-green);
     }
-    & .reasons {
+    & .tabs, & .reasons, & .comments {
       opacity: 1;
       visibility: visible;
+    }
+  }
+
+  & .comments {
+    text-align: center;
+    & .comment {
+      color: var(--kwalito-red);
+      &.positive {
+        color: var(--kwalito-green);
+      }
     }
   }
 }

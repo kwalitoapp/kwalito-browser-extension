@@ -3,14 +3,16 @@
   --box-spacing: 10px;
   --logo-height: 96px;
   --actionBar-height: 56px;
+  --tabs-height: 48px;
   --reasons-height: calc(
           var(--app-height) /* total size */
           - var(--box-spacing) /* top padding */
           - var(--logo-height) /* logo */
           - 2 * var(--box-spacing) /* paddings for logo and actionBar */
           - var(--actionBar-height) /* actionBar */
-          - 2 * var(--box-spacing) /* paddings for actionBar and reasons */
-          - var(--box-spacing) /* bottom padding */
+          - 2 * var(--box-spacing) /* paddings for actionBar and tabs */
+          - var(--tabs-height) /* actionBar */
+          /*- var(--box-spacing) /* bottom padding */
   );
   --kwalito-redLighter: #fdf2f0;
   --kwalito-redLight: #f8c5bf;
@@ -30,5 +32,8 @@
   --kwalito-grey: #b3b3b3;
   --kwalito-greyDark: #818181;
   --kwalito-greyDarker: #666666;
+
+  --kwalito-gold: #FFF50D;
+  --kwalito-purple: #7686b5;
 
 }

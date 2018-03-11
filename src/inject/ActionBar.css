@@ -6,7 +6,17 @@
   opacity: 0;
   visibility: hidden;
   text-align: center;
-  height: calc(var(--actionBar-height) + 2 * var(--box-spacing));
+  height: calc(var(--actionBar-height) + var(--box-spacing));
+
+  & > * {
+    margin: 0 8px;
+  }
+
+  & .favorite {
+    display: inline-block;
+    padding: 0 8px 8px 0;
+  }
+
   &.displayMore {
     opacity: 1;
     visibility: visible;

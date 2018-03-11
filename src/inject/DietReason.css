@@ -2,7 +2,6 @@
 .subtitle {
   height: 24px;
   padding: var(--box-spacing);
-  margin-top: calc(2 * var(--box-spacing));
   color: var(--kwalito-red);
   background-color: var(--kwalito-redLighter);
   border-top: 1px solid var(--kwalito-red);

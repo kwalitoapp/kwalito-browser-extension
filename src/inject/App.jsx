@@ -1,42 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment';
 import classNames from 'classnames';
 import { autobind } from 'core-decorators';
 import { ListSubHeader, ListDivider, ListCheckbox } from 'material-ui/List';
+import { Tab, Tabs } from 'material-ui/Tabs';
+import {List, ListItem} from 'material-ui/List';
+import SwipeableViews from 'react-swipeable-views';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { recvMessage, sendMessage } from '../messaging';
 import DietReason from './DietReason';
 import Logo from './Logo';
 import ActionBar from './ActionBar';
-import theme from '../theme';
+import theme, * as themeColors from '../theme';
 import style from './App.css';
 
 export default class InjectApp extends Component {
   static propTypes = {
+    user: PropTypes.object.isRequired,
     product: PropTypes.object.isRequired,
     fitsMe: PropTypes.bool.isRequired,
     badIngredients: PropTypes.array.isRequired,
     badTraces: PropTypes.array.isRequired,
     favorite: PropTypes.bool,
-    like: PropTypes.bool,
-    dislike: PropTypes.bool,
+    contributions: PropTypes.array.isRequired
   };
 
   static defaultProps = {
-    favorite: false,
-    like: false,
-    dislike: false,
+    favorite: false
   };
 
   constructor(props, context) {
     super(props, context);
-    const { favorite, like, dislike } = this.props;
+    const { favorite, contributions } = this.props;
     this.state = {
       displayRetainer: ['startup'],
       favorite,
-      like,
-      dislike
+      contributions,
+      ...this.getLikeAndDislikeFromContributions(contributions)
     };
     this.retainerName = 'App';
     this.setMessageListener();
@@ -45,11 +47,23 @@ export default class InjectApp extends Component {
 
   setMessageListener() {
     recvMessage({
-      setFavorite: data => this.setState({ ...this.state, favorite: data.favorite }),
-      setLike: data => this.setState({ ...this.state, like: data.like }),
-      setDislike: data => this.setState({ ...this.state, dislike: data.dislike })
+      setFavorite: favorite => this.setState({ ...this.state, favorite }),
+      setContributions: contributions => this.setState({ ...this.state, contributions, ...this.getLikeAndDislikeFromContributions(contributions) })
     });
+  }
 
+  getLikeAndDislikeFromContributions(contributions) {
+    const { user, product } = this.props;
+    let like = false;
+    let dislike = false;
+    contributions.forEach((contribution) => {
+      if(contribution._id === `comment-${product.ean}-${user._id}`){
+        like = contribution.positive === true;
+        dislike = contribution.positive === false;
+      }
+    });
+    console.log('like and dislike:', { like, dislike });
+    return {like, dislike};
   }
 
   buildReasons(ingredient, reasons) {
@@ -70,6 +84,7 @@ export default class InjectApp extends Component {
 
   @autobind
   retainDisplay(source) {
+    console.log('retain display for ', source);
     const { displayRetainer } = this.state;
     if(displayRetainer.length === 0) {
       sendMessage(window.parent, 'iframeStyle', {
@@ -104,24 +119,81 @@ export default class InjectApp extends Component {
   @autobind
   onFavorite() {
     const { product } = this.props;
-    sendMessage(window.parent, 'setFavorite', { ean: product.ean });
+    const { favorite } = this.state;
+    sendMessage(window.parent, 'setFavorite', { ean: product.ean, active: !favorite });
   }
 
   @autobind
-  onLike() {
-    const { like } = this.state;
-    sendMessage(window.parent, 'setLike', { like: !like });
+  onLike(active, comment) {
+    const { product } = this.props;
+    sendMessage(window.parent, 'setLike', { ean: product.ean, active, comment });
   }
 
   @autobind
-  onDislike() {
-    const { dislike } = this.state;
-    sendMessage(window.parent, 'setDislike', { dislike: !dislike });
+  onDislike(active, comment) {
+    const { product } = this.props;
+    sendMessage(window.parent, 'setDislike', { ean: product.ean, active, comment });
+  }
+
+  @autobind
+  renderReasons(reasons) {
+    const { product, badIngredients, badTraces } = this.props;
+    const rendered = [];
+    _.map(reasons.diet, diet => rendered.push(
+      <DietReason
+        key={`dietReason-${diet.name}`}
+        reason={{ type: 'diet', ...diet }}
+        badIngredients={badIngredients}
+        badTraces={badTraces}
+      />
+    ));
+    if(reasons.user.length > 0){
+      rendered.push(
+        <DietReason
+          key={'dietReason-user'}
+          reason={{ type: 'user', ingredients: reasons.user }}
+          badIngredients={badIngredients}
+          badTraces={badTraces}
+        />
+      );
+    }
+    rendered.push(
+      <DietReason
+        key={'dietReason-traces'}
+        reason={{ type: 'traces', ingredients: product.traces }}
+        badIngredients={badIngredients}
+        badTraces={badTraces}
+      />
+    );
+    rendered.push(
+      <DietReason
+        key={'dietReason-ingredients'}
+        reason={{ type: 'ingredients', ingredients: product.ingredients }}
+        badIngredients={badIngredients}
+        badTraces={badTraces}
+      />
+    );
+    return rendered;
+  }
+
+  renderContributions(contributions) {
+    console.log('Render contributions:', contributions);
+    const renderedContributions = contributions
+      .filter(contribution => contribution.comment)
+      .sort((a, b) => (b.timestamp - a.timestamp))
+      .map(contribution => (
+        <ListItem
+          primaryText={contribution.comment}
+          secondaryText={moment.duration(contribution.timestamp - new Date().getTime()).humanize(true)}
+          style={{color: contribution.positive ? themeColors.green : themeColors.red}}
+        />
+      ));
+    return (<List>{renderedContributions}</List>);
   }
 
   render() {
-    const { product, fitsMe, badIngredients, badTraces } = this.props;
-    const { favorite, like, dislike, displayRetainer } = this.state;
+    const { fitsMe, badIngredients, badTraces } = this.props;
+    const { favorite, like, dislike, displayRetainer, contributions } = this.state;
     // const tagSize = 96;
     const reasons = {
       diet: {},
@@ -155,16 +227,26 @@ export default class InjectApp extends Component {
             onDislike={this.onDislike}
             like={like}
             onLike={this.onLike}
+            contributions={contributions}
           />
-          <div className={style.reasons}>
-            <h2>Ingrédients</h2>
-            <div>
-              {_.map(reasons.diet, diet => <DietReason reason={{ type: 'diet', ...diet }} badIngredients={badIngredients} badTraces={badTraces} />)}
-              <DietReason reason={{ type: 'user', ingredients: reasons.user }} badIngredients={badIngredients} badTraces={badTraces} />
-              <DietReason reason={{ type: 'traces', ingredients: product.traces }} badIngredients={badIngredients} badTraces={badTraces} />
-              <DietReason reason={{ type: 'ingredients', ingredients: product.ingredients }} badIngredients={badIngredients} badTraces={badTraces} />
+          <Tabs
+            className={style.tabs}
+            value={this.state.tabIndex}
+            onChange={(newIndex) => { this.setState({...this.state, tabIndex: newIndex}); }}
+            tabItemContainerStyle={{ backgroundColor: fitsMe ? themeColors.green : themeColors.red }}
+            inkBarStyle={{ backgroundColor: fitsMe ? themeColors.greenDark : themeColors.redDarker }}
+          >
+            <Tab label="Ingrédients" value={0} />
+            <Tab label={`${contributions.filter(contr => contr.comment).length} commentaires`} value={1} />
+          </Tabs>
+          <SwipeableViews index={this.state.tabIndex}>
+            <div className={style.reasons}>
+              {this.renderReasons(reasons)}
             </div>
-          </div>
+            <div className={style.comments}>
+              {this.renderContributions(contributions)}
+            </div>
+          </SwipeableViews>
         </div>
       </MuiThemeProvider>
     );

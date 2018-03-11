@@ -15,13 +15,35 @@ window.addEventListener('load', () => {
   iframe.style.overflow = 'hidden';
   iframe.style['box-shadow'] = '2px 2px 8px 0px rgba(0, 0, 0, 0.7)';
 
+  const contributionHandeler = (positive) => (data) => {
+    console.log('SETTING PRODUCT AS Liked or disliked:', positive, data);
+    return sendBackgroundMessage({ type: 'kwalitoSDK', data: { method: 'productSetContribution', arg: { ...data, positive } }})
+      .then((contributionsData) => {
+        console.log('Received a contribution result:', contributionsData);
+        sendMessage(iframe.contentWindow, 'setContributions', contributionsData.data);
+      });
+  }
   recvMessage({
     getInfo: () => {
-      sendBackgroundMessage({ type: 'kwalitoSDK', method: 'checkProduct', arg: productInfos })
+      const info = { storeName: store.name };
+      return sendBackgroundMessage({ type: 'kwalitoSDK', data: { method: 'productCheck', arg: productInfos }})
         .then((checkResult) => {
           console.log('Received a result:', checkResult);
-          sendMessage(iframe.contentWindow, 'info', { storeName: store.name, checkResult });
-        });
+          _.assign(info, checkResult.data);
+          console.log('GETTING THE USER!');
+          return sendBackgroundMessage({ type: 'kwalitoSDK', data: { method: 'userGet' }});
+        })
+        .then((user) => {
+          console.log('Received a user:', user);
+          info.user = user.data;
+          info.favorite = (info.user.favoriteProducts.indexOf(productInfos.ean) !== -1);
+          return sendBackgroundMessage({ type: 'kwalitoSDK', data: { method: 'contributionGet', arg: productInfos.ean }});
+        })
+        .then((contributions) => {
+          info.contributions = contributions.data;
+          sendMessage(iframe.contentWindow, 'info', info);
+        })
+      ;
     },
     iframeStyle: (data) => {
       _.forEach(data.styles, (value, key) => {
@@ -30,15 +52,13 @@ window.addEventListener('load', () => {
     },
     setFavorite: (data) => {
       console.log('SETTING PRODUCT AS FAVORITE:', data);
-      sendMessage(iframe.contentWindow, 'setFavorite', { favorite: true });
+      return sendBackgroundMessage({ type: 'kwalitoSDK', data: { method: 'productSetFavorite', arg: data }})
+        .then((isFavoriteData) => {
+          console.log('Received a result:', isFavoriteData);
+          sendMessage(iframe.contentWindow, 'setFavorite', isFavoriteData.data);
+        });
     },
-    setLike: (data) => {
-      console.log('SETTING PRODUCT AS Liked:', data);
-      sendMessage(iframe.contentWindow, 'setLike', data);
-    },
-    setDislike: (data) => {
-      console.log('SETTING PRODUCT AS dislike:', data);
-      sendMessage(iframe.contentWindow, 'setDislike', data);
-    }
+    setLike: contributionHandeler(true),
+    setDislike: contributionHandeler(false)
   }, [`chrome-extension://${chrome.runtime.id}`]);
 });

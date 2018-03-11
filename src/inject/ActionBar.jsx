@@ -8,10 +8,11 @@ import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import * as themeContent from '../theme';
 import IconButton from './IconButton';
-import {capitalize} from './utils';
+import Badged from './Badged';
+import { capitalize } from './utils';
 import style from './ActionBar.css';
+
 
 export default class ActionBar extends Component {
   static propTypes = {
@@ -23,15 +24,15 @@ export default class ActionBar extends Component {
     dislike: PropTypes.bool.isRequired,
     onDislike: PropTypes.func.isRequired,
     like: PropTypes.bool.isRequired,
-    onLike: PropTypes.func.isRequired
+    onLike: PropTypes.func.isRequired,
+    contributions: PropTypes.array.isRequired
   };
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      showCommentModal: false
-    };
+    const { contributions } = this.props;
     this.retainerName = 'ActionBar';
+    this.state = { showCommentModal: false };
   }
 
   @autobind
@@ -50,10 +51,10 @@ export default class ActionBar extends Component {
   saveComment() {
     const { comment, buttonToToggle } = this.state;
     const { releaseDisplay } = this.props;
-    const buttonToTurnOff = (buttonToToggle === 'like' ? 'dislike' : 'like');
-    if(this.props[buttonToTurnOff]){
-      this.props[`on${capitalize(buttonToTurnOff)}`](false);
-    }
+    // const buttonToTurnOff = (buttonToToggle === 'like' ? 'dislike' : 'like');
+    // if(this.props[buttonToTurnOff]){
+    //   this.props[`on${capitalize(buttonToTurnOff)}`](false);
+    // }
     this.props[`on${capitalize(buttonToToggle)}`](true, comment);
     releaseDisplay(this.retainerName);
     this.setState({
@@ -67,7 +68,7 @@ export default class ActionBar extends Component {
   @autobind
   onLike() {
     const { like, onLike, retainDisplay } = this.props;
-    if(like){
+    if (like) {
       return onLike(false);
     }
     retainDisplay(this.retainerName);
@@ -77,7 +78,7 @@ export default class ActionBar extends Component {
   @autobind
   onDislike() {
     const { dislike, onDislike, retainDisplay } = this.props;
-    if(dislike){
+    if (dislike) {
       return onDislike(false);
     }
     retainDisplay(this.retainerName);
@@ -85,8 +86,20 @@ export default class ActionBar extends Component {
   }
 
   render() {
-    const { displayRetainer, favorite, onFavorite, dislike, like } = this.props;
+    const { displayRetainer, favorite, onFavorite, dislike, like, contributions } = this.props;
     const { showCommentModal } = this.state;
+
+    let nbLikes = 0;
+    let nbDislikes = 0;
+    console.log('recalculating likes and dislikes based on contributions', contributions);
+    contributions.forEach((contribution) => {
+      if (contribution.positive) {
+        nbLikes++;
+      } else {
+        nbDislikes++;
+      }
+    });
+
     const actions = [
       <FlatButton
         label="Annuler"
@@ -107,28 +120,33 @@ export default class ActionBar extends Component {
           [style.displayMore]: (displayRetainer.length > 0)
         })}
       >
-        <IconButton icon={<IconStar />} selected={favorite} handler={onFavorite} />
-        <IconButton icon={<IconThumbDown />} selected={dislike} handler={this.onDislike} />
-        <IconButton icon={<IconThumbUp />} selected={like} handler={this.onLike} />
+        <div className={style.favorite}>
+          <IconButton icon={<IconStar />} selected={favorite} handler={onFavorite} />
+        </div>
+        <Badged value={nbDislikes}>
+          <IconButton icon={<IconThumbDown />} selected={dislike} handler={this.onDislike} />
+        </Badged>
+        <Badged value={nbLikes}>
+          <IconButton icon={<IconThumbUp />} selected={like} handler={this.onLike} />
+        </Badged>
         <Dialog
-          title="Dialog With Date Picker"
+          title="Un avis sur ce produit ?"
           actions={actions}
           modal={false}
           open={showCommentModal}
           onRequestClose={this.handleModalClose}
+          contentStyle={{width: '100%', maxWidth: 'none'}}
         >
-          Open a Date Picker dialog from within a dialog.
           <TextField
             type="text"
             name="comment"
             value={this.state.comment}
-            label="Quel commentaire donnez-vous à ce produit ?"
-            hintText="Tapez votre commentaire"
+            hintText="Partagez votre avis ou recommandez un produit similaire"
             onChange={this.onComment}
-            icon="search"
             multiLine
             rows={2}
             rowsMax={4}
+            fullWidth
           />
         </Dialog>
       </div>

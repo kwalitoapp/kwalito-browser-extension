@@ -4,7 +4,7 @@ import { traceRegex } from '../popup/constants';
 export const name = 'monoprix';
 
 // export const urlMatch = '^https://www\\.monoprix\\.fr/.*-p$';
-export const urlMatch = '^(https://www\\.monoprix\\.fr/.*-p)|(file://.*Monoprix.fr.html)|(http://127.0.0.1:8080.*)$';
+export const urlMatch = '^(https://www\\.monoprix\\.fr/.*-p)|(file://.*Monoprix.fr.html)|(http://127.0.0.1:8080.*)|(http://0.0.0.0:8080.*)$';
 
 export const extractProductInfos = () => {
   const tcvarsScript = document.querySelectorAll('head script:not([src])');

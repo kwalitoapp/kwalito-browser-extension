@@ -4,9 +4,9 @@ import InjectApp from '../inject/App';
 import { recvMessage, sendMessage } from '../messaging';
 
 recvMessage({
-  info: data => render(
+  info: checkResult => render(
     <InjectApp
-      {...data.checkResult.data}
+      {...checkResult}
     />,
     document.querySelector('#root')
   )

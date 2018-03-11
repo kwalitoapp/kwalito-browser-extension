@@ -13,19 +13,24 @@ export default function DietReason({ reason, badIngredients, badTraces }) {
   const rendered = [];
   let subTitle;
   let icon;
-  if (reason.type === 'diet') {
-    subTitle = reason.diet.locale.fr.excludingName;
-    icon = <div className={style.icon} dangerouslySetInnerHTML={{ __html: reason.diet.pictureSvg }} />;
-    console.log('REASON FOR THIS DIET:', reason.diet);
-  } else if (reason.type === 'user') {
-    subTitle = 'Mes ingrédients exclus';
-    icon = <div className={style.icon}><IconBlock color={'inherit'} /></div>;
-  } else if (reason.type === 'traces') {
-    subTitle = 'Traces';
-    icon = <div className={style.icon}><IconWarning color={'inherit'} /></div>;
-  } else if (reason.type === 'ingredients') {
-    subTitle = 'Ingrédients';
-    icon = <div className={style.icon}><IconRestaurantMenu color={'inherit'} /></div>;
+  switch(reason.type){
+    case 'diet':
+      subTitle = reason.diet.locale.fr.excludingName;
+      icon = <div className={style.icon} dangerouslySetInnerHTML={{ __html: reason.diet.pictureSvg }} />;
+      // console.log('REASON FOR THIS DIET:', reason.diet);
+      break;
+    case 'user':
+      subTitle = 'Mes ingrédients exclus';
+      icon = <div className={style.icon}><IconBlock color={'inherit'} /></div>;
+      break;
+    case 'traces':
+      subTitle = 'Traces';
+      icon = <div className={style.icon}><IconWarning color={'inherit'} /></div>;
+      break;
+    case 'ingredients':
+      subTitle = 'Ingrédients';
+      icon = <div className={style.icon}><IconRestaurantMenu color={'inherit'} /></div>;
+      break;
   }
   const chips = [];
   let reasonFitsMe = true;
@@ -36,7 +41,7 @@ export default function DietReason({ reason, badIngredients, badTraces }) {
     );
     reasonFitsMe = reasonFitsMe && ingrFitsMe;
     chips.push(<Chip
-      key={`chip-${reason}-${index}`}
+      key={`chip-${subTitle}-${index}`}
       style={{ margin: '2px' }}
       backgroundColor={ingrFitsMe ? themeContent.greenLight : themeContent.redLight}
       labelStyle={{ color: ingrFitsMe ? themeContent.greenDarker : themeContent.redDarker }}
@@ -59,11 +64,11 @@ export default function DietReason({ reason, badIngredients, badTraces }) {
     );
     rendered.push(<div key={`chips-${subTitle}`} className={style.chips}>{chips}</div>);
   }
-  return <div>{rendered}</div>;
+  return <div key={`main-${subTitle}`}>{rendered}</div>;
 }
 
 DietReason.propTypes = {
   reason: PropTypes.object.isRequired,
-  badIngredients: PropTypes.object.isRequired,
-  badTraces: PropTypes.object.isRequired
+  badIngredients: PropTypes.array.isRequired,
+  badTraces: PropTypes.array.isRequired
 };

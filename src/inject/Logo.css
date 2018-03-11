@@ -1,10 +1,11 @@
 @import "./variables.css";
 .logo {
   box-sizing: border-box;
-  text-align: center;
   height: calc(var(--logo-height) + 2 * var(--box-spacing));
   padding: var(--box-spacing);
+  z-index: 999;
   & .img {
+    margin: auto;
     transition: transform 1s;
     transform: rotate(0deg);
     height: calc(var(--logo-height) - var(--box-spacing));
@@ -12,8 +13,12 @@
     background-color: var(--kwalito-red);
     padding: var(--box-spacing);
     border-radius: calc((var(--logo-height) / 2) + var(--box-spacing));
-    color: white;
-    fill: white;
+    & svg {
+      height: inherit;
+      width: inherit;
+      color: white;
+      fill: white;
+    }
   }
   &.fitsMe {
     & .img {

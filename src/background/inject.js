@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import stores from '../stores';
+import { recvBackgroundMessage } from '../messaging';
 
 export const isInjected = (tabId) => {
   return chrome.tabs.executeScriptAsync(tabId, {
@@ -47,17 +48,20 @@ export default (kwalitoSDK) => {
     loadScript('inject', tabId, () => console.log('load inject bundle success!'));
   });
 
-  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-    console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
-    let msgPromise;
-    if(msg.type === 'kwalitoSDK'){
-      msgPromise = kwalitoSDK[msg.method](msg.arg);
-    } else {
-      msgPromise = Promise.resolve(new Error(`Unknown message: ${JSON.stringify(msg)}`));
-    }
-    msgPromise
-      .then((data) => sendResponse({id: msg.id, data}))
-    ;
-    return true;
+  recvBackgroundMessage({
+    kwalitoSDK: data => kwalitoSDK[data.method](data.arg)
   });
+  // chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  //   console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
+  //   let msgPromise;
+  //   if(msg.type === 'kwalitoSDK'){
+  //     msgPromise = kwalitoSDK[msg.method](msg.arg);
+  //   } else {
+  //     msgPromise = Promise.resolve(new Error(`Unknown message: ${JSON.stringify(msg)}`));
+  //   }
+  //   msgPromise
+  //     .then((data) => sendResponse({id: msg.id, data}))
+  //   ;
+  //   return true;
+  // });
 };
